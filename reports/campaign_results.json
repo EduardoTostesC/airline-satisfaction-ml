@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-10-30T20:13:03.603488+00:00",
+  "updated_at_utc": "2026-10-30T20:29:55.889968+00:00",
   "baseline": {
     "experiment_id": "20261030T184827_catboost_first_submission_06d4f0",
     "auc_oof": 0.9581655687580003,
@@ -95,7 +95,10 @@
       "service_representation": "ordinal",
       "artifacts": "artifacts\\runs\\20261030T195939_cost_lightgbm_200_eac3c4",
       "submission_state": "diagnostic_only",
-      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
+      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962",
+      "control_name": null,
+      "delta_vs_control": null,
+      "confirmed_improvement_vs_control": false
     },
     {
       "name": "cost_xgboost_200",
@@ -142,7 +145,10 @@
       "service_representation": "ordinal",
       "artifacts": "artifacts\\runs\\20261030T200233_cost_xgboost_200_06c5c9",
       "submission_state": "diagnostic_only",
-      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
+      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962",
+      "control_name": null,
+      "delta_vs_control": null,
+      "confirmed_improvement_vs_control": false
     },
     {
       "name": "cost_catboost_200",
@@ -187,7 +193,10 @@
       "service_representation": "ordinal",
       "artifacts": "artifacts\\runs\\20261030T200512_cost_catboost_200_8b3473",
       "submission_state": "diagnostic_only",
-      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
+      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962",
+      "control_name": null,
+      "delta_vs_control": null,
+      "confirmed_improvement_vs_control": false
     },
     {
       "name": "camp_lightgbm_2000",
@@ -245,7 +254,10 @@
       "service_representation": "ordinal",
       "artifacts": "artifacts\\runs\\20261030T200830_camp_lightgbm_2000_8b7a6e",
       "submission_state": "generated",
-      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
+      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962",
+      "control_name": null,
+      "delta_vs_control": 0.00040746007885350544,
+      "confirmed_improvement_vs_control": true
     }
   ]
 }

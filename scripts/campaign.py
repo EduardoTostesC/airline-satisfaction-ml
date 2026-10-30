@@ -26,6 +26,13 @@ def collect():
         if not cfg["name"].startswith(("camp_", "cost_")):
             continue
         full = value.get("evaluation_scope") == "full_cv" and value.get("pilot_rows") is None
+        if full and (
+            value["folds_completed"] != [0, 1, 2, 3, 4]
+            or value["oof_rows"] != 699635
+            or value["fold_key"] != plan["fold_key"]
+            or cfg["dataset_role"] != "competition"
+        ):
+            raise ValueError("Candidato completo não cobre os cinco folds/dados da campanha.")
         matched = {x["fold"]: x["auc"] for x in baseline["folds"]}
         deltas = [x["auc"] - matched[x["fold"]] for x in value["folds"]]
         consistent = (
@@ -60,6 +67,29 @@ def collect():
         }
         results.append(item)
     results.sort(key=lambda row: row["experiment_id"])
+    by_name = {row["name"]: row for row in results}
+    for row in results:
+        comparison = plan.get("comparisons", {}).get(row["name"], {})
+        control = by_name.get(comparison.get("control_name"))
+        row["control_name"] = comparison.get("control_name")
+        if row["scope"] == "screening":
+            reference = comparison.get("screen_reference_auc")
+            row["delta_vs_control"] = (
+                row["validation_auc"] - reference if reference is not None else None
+            )
+            row["confirmed_improvement_vs_control"] = False
+        elif control is not None and control["scope"] == "full_cv":
+            row["delta_vs_control"] = row["auc_oof"] - control["auc_oof"]
+            deltas = [a - b for a, b in zip(row["fold_aucs"], control["fold_aucs"])]
+            row["fold_deltas_vs_control"] = deltas
+            row["confirmed_improvement_vs_control"] = (
+                row["delta_vs_control"] > 0
+                and sum(x > 0 for x in deltas) >= 4
+                and min(deltas) >= -0.0002
+            )
+        else:
+            row["delta_vs_control"] = row["global_oof_delta_vs_baseline"]
+            row["confirmed_improvement_vs_control"] = row["consistent_improvement_vs_baseline"]
     write_json(RESULTS, {"updated_at_utc": utc_now(), "baseline": baseline, "results": results})
     lines = [
         "# Campanha controlada de melhoria",
@@ -108,15 +138,21 @@ def collect():
             "",
             "## Resultados medidos",
             "",
-            "| Tentativa | Escopo | AUC OOF completa | AUC validação coberta | Delta OOF | "
+            "| Tentativa | Escopo | AUC OOF completa | AUC validação coberta | "
+            "Delta OOF | Delta controle | "
             "Minutos | Pico RSS GiB | Consistente |",
-            "|---|---|---:|---:|---:|---:|---:|---|",
+            "|---|---|---:|---:|---:|---:|---:|---:|---|",
         ]
     )
 
     def number(value):
         return "—" if value is None else f"{value:.8f}"
 
+    lines.append(
+        f"| baseline_catboost_1000 | full_cv [0,1,2,3,4] | {baseline['auc_oof']:.8f} | "
+        f"{baseline['auc_oof']:.8f} | 0 | 0 | {baseline['duration_seconds'] / 60:.2f} | "
+        "— | referência |"
+    )
     for item in results:
         resource = item["resources"] or {}
         rss = resource.get("peak_rss_bytes")
@@ -124,14 +160,16 @@ def collect():
             f"| {item['name']} | {item['scope']} {item['folds_completed']} | "
             f"{number(item['auc_oof'])} | {item['validation_auc']:.8f} | "
             f"{number(item['global_oof_delta_vs_baseline'])} | "
+            f"{number(item['delta_vs_control'])} | "
             f"{item['duration_seconds'] / 60:.2f} | "
             f"{f'{rss / 2**30:.2f}' if rss is not None else '—'} | "
-            f"{'sim' if item['consistent_improvement_vs_baseline'] else 'não/triagem'} |"
+            f"{'sim' if item['confirmed_improvement_vs_control'] else 'não/triagem'} |"
         )
     lines.extend(["", "## Hipóteses, inclusive resultados sem ganho", ""])
     for item in results:
         lines.append(
             f"- **{item['name']}**: {item['hypothesis']} "
+            f"Controle direto: {item['control_name'] or 'baseline auditada'}. "
             f"Deltas nos folds avaliados: {[round(x, 8) for x in item['fold_deltas_vs_baseline']]}."
         )
     lines.extend(
@@ -146,6 +184,11 @@ def collect():
             "",
         ]
     )
+    failures = Path("reports/campaign_failures.json")
+    if failures.exists():
+        lines.extend(["", "## Falhas ou tentativas interrompidas", ""])
+        for failure in json.loads(failures.read_text(encoding="utf-8")):
+            lines.append(f"- {failure['name']}: {failure['status']}; log local {failure['log']}.")
     DOC.write_text("\n".join(lines), encoding="utf-8")
     return results
 
@@ -207,8 +250,32 @@ def run(config, folds, timeout):
                 time.sleep(1)
         except BaseException:
             terminate_owned_tree(process)
+            failures = Path("reports/campaign_failures.json")
+            old = json.loads(failures.read_text(encoding="utf-8")) if failures.exists() else []
+            old.append(
+                {
+                    "name": name,
+                    "date_utc": utc_now(),
+                    "status": "interrupted",
+                    "log": str(log),
+                    "wall_seconds": time.monotonic() - started,
+                }
+            )
+            write_json(failures, old)
             raise
     if process.returncode:
+        failures = Path("reports/campaign_failures.json")
+        old = json.loads(failures.read_text(encoding="utf-8")) if failures.exists() else []
+        old.append(
+            {
+                "name": name,
+                "date_utc": utc_now(),
+                "status": "failed",
+                "log": str(log),
+                "returncode": process.returncode,
+            }
+        )
+        write_json(failures, old)
         raise RuntimeError(f"Tentativa falhou; veja {log}")
     results = collect()
     print(json.dumps(results[-1], ensure_ascii=True, indent=2))

@@ -158,5 +158,73 @@
     "bounded_screens",
     "best_remaining_confirmations"
   ],
-  "memory_policy": "Sequential workers; no parallel model training. Monitor sampled RSS/private bytes throughout."
+  "memory_policy": "Sequential workers; no parallel model training. Monitor sampled RSS/private bytes throughout.",
+  "comparisons": {
+    "camp_cb_depth5_s500": {
+      "control_name": "audited_catboost_prefix500",
+      "screen_reference_auc": 0.957776459436328,
+      "reference_scope": "fold0, best prefix up to 500 trees, audited model native validation history"
+    },
+    "camp_cb_depth7_s500": {
+      "control_name": "audited_catboost_prefix500",
+      "screen_reference_auc": 0.957776459436328,
+      "reference_scope": "fold0, best prefix up to 500 trees, audited model native validation history"
+    },
+    "camp_cb_l2_10_s500": {
+      "control_name": "audited_catboost_prefix500",
+      "screen_reference_auc": 0.957776459436328,
+      "reference_scope": "fold0, best prefix up to 500 trees, audited model native validation history"
+    },
+    "camp_cb_lr08_s320": {
+      "control_name": "audited_catboost_prefix500",
+      "screen_reference_auc": 0.957776459436328,
+      "reference_scope": "fold0, best prefix up to 500 trees, audited model native validation history"
+    },
+    "camp_lgb_delays_s800": {
+      "control_name": "camp_lightgbm_2000",
+      "screen_reference_auc": 0.9588257094262846,
+      "reference_scope": "fold0, best prefix up to 800 trees, full-run native validation history"
+    },
+    "camp_lgb_rating_counts_s800": {
+      "control_name": "camp_lightgbm_2000",
+      "screen_reference_auc": 0.9588257094262846,
+      "reference_scope": "fold0, best prefix up to 800 trees, full-run native validation history"
+    },
+    "camp_lgb_rating_differences_s800": {
+      "control_name": "camp_lightgbm_2000",
+      "screen_reference_auc": 0.9588257094262846,
+      "reference_scope": "fold0, best prefix up to 800 trees, full-run native validation history"
+    },
+    "camp_lgb_rating_summary_s800": {
+      "control_name": "camp_lightgbm_2000",
+      "screen_reference_auc": 0.9588257094262846,
+      "reference_scope": "fold0, best prefix up to 800 trees, full-run native validation history"
+    },
+    "camp_lgb_segments_s800": {
+      "control_name": "camp_lightgbm_2000",
+      "screen_reference_auc": 0.9588257094262846,
+      "reference_scope": "fold0, best prefix up to 800 trees, full-run native validation history"
+    },
+    "camp_lgb_service_categorical_s800": {
+      "control_name": "camp_lightgbm_2000",
+      "screen_reference_auc": 0.9588257094262846,
+      "reference_scope": "fold0, best prefix up to 800 trees, full-run native validation history"
+    },
+    "camp_lgb_service_segments_s800": {
+      "control_name": "camp_lightgbm_2000",
+      "screen_reference_auc": 0.9588257094262846,
+      "reference_scope": "fold0, best prefix up to 800 trees, full-run native validation history"
+    },
+    "camp_lgb_leaves63_s800": {
+      "control_name": "camp_lightgbm_2000",
+      "screen_reference_auc": 0.9588257094262846,
+      "reference_scope": "fold0, best prefix up to 800 trees"
+    }
+  },
+  "triage_reference_aucs": {
+    "catboost_prefix500_fold0": 0.957776459436328,
+    "lightgbm_prefix800_fold0": 0.9588257094262846
+  },
+  "full_cv_actual_lightgbm_seconds": 249.77459290000843,
+  "additional_screen_justification": "One LightGBM 63-leaf capacity screen is included within the eight-screen bound after actual full LightGBM cost was 250 s, far below the initial linear projection."
 }
