@@ -20,6 +20,11 @@ os três backends. Avisos de depreciação do LightGBM motivaram atualização p
 argumentos documentados `eval_X` e `eval_y`; os checks finais são registrados em
 [results.md](results.md).
 
+Verificação final local: 32 testes aprovados sem avisos, Ruff aprovado, smoke pela CLI
+concluído, notebook executado em kernel local e gráfico da auditoria artificial
+inspecionado. O primeiro commit foi publicado por push confirmado. Não houve execução
+no Colab, treinamento oficial ou envio ao Kaggle.
+
 Bloqueio observado: `data/raw/train.csv` ausente. A tentativa de usar Downloads
 é rejeitada por ausência do ID esperado, pois os arquivos encontrados pertencem
 a outro problema. Isso não é uma falha de treinamento nem resultado de competição.

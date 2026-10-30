@@ -8,7 +8,8 @@ Autor: **Adilson Eduardo Tostes Carmo**.
 
 Pipeline implementado e verificado com **32 testes aprovados**, incluindo os três
 backends em dados artificiais. Os dados oficiais de treino e teste ainda não foram
-localizados. O sample recebido contém 299.844 registros. Nenhuma nota de competição
+localizados. O notebook também executou com sucesso em kernel local. O sample recebido
+contém 299.844 registros. Nenhuma nota de competição
 foi medida por este projeto. Resultados de notebooks de terceiros não são resultados
 reproduzidos aqui.
 

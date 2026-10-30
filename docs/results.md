@@ -47,5 +47,12 @@ Verificações executadas localmente:
 - Verificação de publicação: nenhum dado individual ou segredo detectado pelos padrões
   configurados. Essa verificação não constitui garantia absoluta de ausência de segredos.
 
-Scores e tempos artificiais não são benchmarks de desempenho da S6E10. O notebook
-passou pela validação estrutural; a verificação de execução local é uma etapa separada.
+- Notebook executado em kernel local Python 3.12, incluindo instalação/configuração,
+  checkout identificado e smoke test. A cópia executada fica apenas em
+  `artifacts/notebook-qa/executed-local.ipynb`, ignorada pelo Git; a versão publicada
+  permanece sem saídas. O caminho remoto Colab ainda não foi executado.
+- Gráfico da auditoria artificial gerado e inspecionado visualmente.
+- Código e documentação publicados por push confirmado no repositório público
+  [EduardoTostesC/airline-satisfaction-ml](https://github.com/EduardoTostesC/airline-satisfaction-ml).
+
+Scores e tempos artificiais não são benchmarks de desempenho da S6E10.

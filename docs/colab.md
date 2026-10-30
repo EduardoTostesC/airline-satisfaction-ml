@@ -18,7 +18,8 @@ local do projeto. Arquivos em `/content` podem desaparecer quando o runtime term
 Siga o [guia oficial](https://github.com/googlecolab/colab-vscode): instale a extensão
 Colab, abra `notebooks/airline_satisfaction.ipynb`, faça login quando solicitado e escolha
 **Select Kernel > Colab > Auto Connect**. A configuração depende de uma conta autenticada.
-Não houve conexão remota ou treinamento no Colab nesta sessão.
+Não houve conexão remota ou treinamento no Colab nesta sessão. O notebook foi executado
+com sucesso no kernel local Python 3.12.13, com apenas o smoke test habilitado.
 
 Para execução local, selecione o Python `.venv` como kernel. O mesmo notebook chama
 os módulos de `src/airline_ml`; ele não duplica o loop de treinamento.
