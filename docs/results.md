@@ -54,5 +54,8 @@ Verificações executadas localmente:
 - Gráfico da auditoria artificial gerado e inspecionado visualmente.
 - Código e documentação publicados por push confirmado no repositório público
   [EduardoTostesC/airline-satisfaction-ml](https://github.com/EduardoTostesC/airline-satisfaction-ml).
+- [GitHub Actions em Ubuntu/Python 3.12](https://github.com/EduardoTostesC/airline-satisfaction-ml/actions/runs/41002072666)
+  aprovado no commit `1b91244`: instalação, Ruff, testes e verificação de publicação.
+  O CI instala o lock principal; os extras LightGBM e XGBoost são verificados localmente.
 
 Scores e tempos artificiais não são benchmarks de desempenho da S6E10.

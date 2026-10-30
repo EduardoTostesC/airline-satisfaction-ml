@@ -25,6 +25,10 @@ concluído, notebook executado em kernel local e gráfico da auditoria artificia
 inspecionado. O primeiro commit foi publicado por push confirmado. Não houve execução
 no Colab, treinamento oficial ou envio ao Kaggle.
 
+O CI Ubuntu/Python 3.12 também concluiu com sucesso no commit `1b91244`, incluindo
+instalação do lock principal, Ruff, pytest e a verificação dos arquivos públicos.
+O link da execução está em `results.md`; os dois modelos opcionais foram testados localmente.
+
 Bloqueio observado: `data/raw/train.csv` ausente. A tentativa de usar Downloads
 é rejeitada por ausência do ID esperado, pois os arquivos encontrados pertencem
 a outro problema. Isso não é uma falha de treinamento nem resultado de competição.

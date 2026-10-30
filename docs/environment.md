@@ -26,6 +26,10 @@ CatBoost 1.2.10, pandas 2.3.3, NumPy 2.5.4, scikit-learn 1.9.1,
 LightGBM 4.7.0 e XGBoost 3.4.1. Os arquivos `requirements-lock.txt` e
 `requirements-boosting-lock.txt` fixam as resoluções usadas.
 
+O lock principal também foi instalado com sucesso no GitHub Actions em Ubuntu,
+Python 3.12; os testes e checks desse CI foram aprovados. Isso não equivale a uma
+execução do notebook no Colab nem a treinamento com dados oficiais.
+
 O lock principal inclui ferramentas de desenvolvimento e notebook. O lock boosting
 acrescenta os dois modelos de comparação. Foram instaladas somente dependências Python
 do projeto. Não foram instalados Colab CLI, GitHub CLI, WSL ou serviços pagos.

@@ -37,7 +37,8 @@ execute novamente a célula de atualização. Ao alterar o notebook, use o noteb
 mesma revisão do código. Não há sincronização automática.
 
 As dependências são instaladas no Python do kernel. A base fixada foi testada em
-Python 3.12.13 no Windows; a execução Linux/Colab ainda exige verificação no runtime real.
+Python 3.12.13 no Windows e os checks principais passaram no CI Ubuntu/Python 3.12.
+A execução Colab ainda exige verificação no runtime real.
 Se o pip atualizar bibliotecas já importadas, reinicie o kernel e execute novamente.
 
 ## Dados e persistência
