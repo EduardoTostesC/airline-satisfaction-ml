@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-10-30T20:11:29.244062+00:00",
+  "updated_at_utc": "2026-10-30T20:13:03.603488+00:00",
   "baseline": {
     "experiment_id": "20261030T184827_catboost_first_submission_06d4f0",
     "auc_oof": 0.9581655687580003,
@@ -187,6 +187,64 @@
       "service_representation": "ordinal",
       "artifacts": "artifacts\\runs\\20261030T200512_cost_catboost_200_8b3473",
       "submission_state": "diagnostic_only",
+      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
+    },
+    {
+      "name": "camp_lightgbm_2000",
+      "experiment_id": "20261030T200830_camp_lightgbm_2000_8b7a6e",
+      "model": "lightgbm",
+      "scope": "full_cv",
+      "folds_completed": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "auc_oof": 0.9585730288368538,
+      "validation_auc": 0.9585730288368538,
+      "duration_seconds": 249.77459290000843,
+      "resources": {
+        "peak_rss_bytes": 694026240,
+        "peak_private_bytes": 1544511488,
+        "min_system_available_bytes": 262225920,
+        "sample_interval_seconds": 0.5,
+        "wall_seconds_including_profiling": 250.1170809000032
+      },
+      "fold_aucs": [
+        0.9588257094262846,
+        0.9584304905827475,
+        0.9588623036955899,
+        0.9580468968124252,
+        0.9587572334435346
+      ],
+      "fold_deltas_vs_baseline": [
+        0.0006027785672526598,
+        0.0003647853866255435,
+        0.000419067260392314,
+        0.00014622241824946425,
+        0.0005352617580675068
+      ],
+      "global_oof_delta_vs_baseline": 0.00040746007885350544,
+      "consistent_improvement_vs_baseline": true,
+      "hypothesis": "Full model-family comparison on the five frozen folds; ordinal service ratings.",
+      "params": {
+        "objective": "binary",
+        "metric": "auc",
+        "n_estimators": 2000,
+        "learning_rate": 0.04,
+        "num_leaves": 31,
+        "colsample_bytree": 1.0,
+        "subsample": 1.0,
+        "reg_lambda": 3.0,
+        "n_jobs": 4,
+        "device_type": "cpu",
+        "verbosity": -1
+      },
+      "feature_groups": [],
+      "service_representation": "ordinal",
+      "artifacts": "artifacts\\runs\\20261030T200830_camp_lightgbm_2000_8b7a6e",
+      "submission_state": "generated",
       "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
     }
   ]

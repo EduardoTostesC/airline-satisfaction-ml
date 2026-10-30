@@ -29,12 +29,14 @@ Ordem de confirmação: LightGBM, CatBoost com 2000 árvores e XGBoost com 1500.
 | cost_lightgbm_200 | screening [0] | — | 0.95767547 | — | 1.09 | 0.58 | não/triagem |
 | cost_xgboost_200 | screening [0] | — | 0.95704050 | — | 1.64 | 0.54 | não/triagem |
 | cost_catboost_200 | screening [0] | — | 0.95645545 | — | 1.42 | 0.62 | não/triagem |
+| camp_lightgbm_2000 | full_cv [0, 1, 2, 3, 4] | 0.95857303 | 0.95857303 | 0.00040746 | 4.16 | 0.65 | sim |
 
 ## Hipóteses, inclusive resultados sem ganho
 
 - **cost_lightgbm_200**: Cost profile: original fold 0, 200 iterations; no promotion. Deltas nos folds avaliados: [-0.00054746].
 - **cost_xgboost_200**: Cost profile: original fold 0, 200 iterations; no promotion. Deltas nos folds avaliados: [-0.00118243].
 - **cost_catboost_200**: Cost profile: original fold 0, 200 iterations; no promotion. Deltas nos folds avaliados: [-0.00176748].
+- **camp_lightgbm_2000**: Full model-family comparison on the five frozen folds; ordinal service ratings. Deltas nos folds avaliados: [0.00060278, 0.00036479, 0.00041907, 0.00014622, 0.00053526].
 
 A primeira submissão é preservada. Não há nova nota pública registrada para estes candidatos. Previsões individuais e modelos ficam fora do Git.
 

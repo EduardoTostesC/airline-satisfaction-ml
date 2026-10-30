@@ -103,7 +103,8 @@ def collect():
         [
             "",
             "Ordem de confirmação: LightGBM, CatBoost com 2000 árvores e XGBoost com 1500. "
-            "Ela considera o custo medido, sem supor superioridade de score. Execuções são sequenciais.",
+            "Ela considera o custo medido, sem supor superioridade de score. "
+            "Execuções são sequenciais.",
             "",
             "## Resultados medidos",
             "",
