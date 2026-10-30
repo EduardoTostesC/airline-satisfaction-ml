@@ -6,7 +6,7 @@ Autor: **Adilson Eduardo Tostes Carmo**.
 
 ## Status
 
-Pipeline implementado e verificado com **44 testes aprovados**, incluindo os três
+Pipeline implementado e verificado com **52 testes aprovados**, incluindo os três
 backends em dados artificiais. Dados oficiais recebidos: 699.635 linhas de treino,
 299.844 de teste e 21 features. A primeira submissão CatBoost foi gerada e validada:
 **ROC AUC OOF de 0,95816557**, em cinco folds, com treino local em CPU de 29 minutos.
@@ -21,6 +21,11 @@ Resultados de notebooks de terceiros não são resultados reproduzidos aqui.
 Buscamos melhorar a solução com experimentos comparáveis. **Top 10 é uma ambição,
 sem garantia**; a nota do décimo não foi fornecida. Consulte a
 [auditoria da baseline](docs/baseline-audit.md) para fatos, limitações e prioridades.
+
+Uma [campanha controlada](docs/campaign.md) está em execução com teto autorizado de
+quatro horas. Os primeiros perfis de custo foram medidos nos conjuntos originais do
+fold 0; nenhuma triagem parcial é tratada como confirmação. Configurações, memória,
+tempos, tentativas sem ganho e resultados completos são registrados separadamente.
 
 ## Ambiente e instalação
 

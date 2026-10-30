@@ -80,12 +80,38 @@ def collect():
         "Amostragem de memória a cada 0,5 s: RSS é memória residente; privada é comprometida "
         "no Windows e pode incluir páginas fora da RAM. Picos são amostrais, não limites exatos.",
         "",
-        "## Resultados medidos",
+        "## Custo e prioridade antes das confirmações",
         "",
-        "| Tentativa | Escopo | AUC OOF completa | AUC validação coberta | Delta OOF | "
-        "Minutos | Pico RSS GiB | Consistente |",
-        "|---|---|---:|---:|---:|---:|---:|---|",
+        "Projeções lineares dos perfis de 200 árvores, usadas apenas para alocar orçamento. "
+        "Overhead, early stopping, profundidade e paginação impedem tratá-las como previsão exata.",
+        "",
+        "| Modelo | Fold 0, 200 árvores (s) | Projeção de CV completa (min) | "
+        "Pico RSS/privado do perfil (GiB) |",
+        "|---|---:|---:|---:|",
     ]
+    for model in plan.get("execution_order", [])[:3]:
+        family = next((name for name in ("lightgbm", "catboost", "xgboost") if name in model), None)
+        estimate = plan.get("cost_profiles_and_estimates", {}).get(family)
+        if estimate:
+            lines.append(
+                f"| {family} | {estimate['measured_seconds_200_fold0']:.1f} | "
+                f"{estimate['rough_full_cv_projection_seconds'] / 60:.1f} | "
+                f"{estimate['peak_rss_measured_bytes'] / 2**30:.2f} / "
+                f"{estimate['peak_private_measured_bytes'] / 2**30:.2f} |"
+            )
+    lines.extend(
+        [
+            "",
+            "Ordem de confirmação: LightGBM, CatBoost com 2000 árvores e XGBoost com 1500. "
+            "Ela considera o custo medido, sem supor superioridade de score. Execuções são sequenciais.",
+            "",
+            "## Resultados medidos",
+            "",
+            "| Tentativa | Escopo | AUC OOF completa | AUC validação coberta | Delta OOF | "
+            "Minutos | Pico RSS GiB | Consistente |",
+            "|---|---|---:|---:|---:|---:|---:|---|",
+        ]
+    )
 
     def number(value):
         return "—" if value is None else f"{value:.8f}"

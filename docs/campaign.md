@@ -10,6 +10,18 @@ Critério prático de consistência: cinco folds completos, OOF global acima da 
 
 Amostragem de memória a cada 0,5 s: RSS é memória residente; privada é comprometida no Windows e pode incluir páginas fora da RAM. Picos são amostrais, não limites exatos.
 
+## Custo e prioridade antes das confirmações
+
+Projeções lineares dos perfis de 200 árvores, usadas apenas para alocar orçamento. Overhead, early stopping, profundidade e paginação impedem tratá-las como previsão exata.
+
+| Modelo | Fold 0, 200 árvores (s) | Projeção de CV completa (min) | Pico RSS/privado do perfil (GiB) |
+|---|---:|---:|---:|
+| lightgbm | 32.6 | 27.7 | 0.58 / 1.43 |
+| catboost | 63.5 | 53.2 | 0.62 / 1.80 |
+| xgboost | 60.5 | 38.4 | 0.54 / 1.46 |
+
+Ordem de confirmação: LightGBM, CatBoost com 2000 árvores e XGBoost com 1500. Ela considera o custo medido, sem supor superioridade de score. Execuções são sequenciais.
+
 ## Resultados medidos
 
 | Tentativa | Escopo | AUC OOF completa | AUC validação coberta | Delta OOF | Minutos | Pico RSS GiB | Consistente |
