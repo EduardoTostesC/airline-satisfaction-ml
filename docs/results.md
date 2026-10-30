@@ -10,12 +10,14 @@
 | Piloto com dados oficiais | Concluído: 10 mil linhas, 83,33 s |
 | Baseline e OOF oficiais | Concluído: 699.635 previsões OOF, 5 folds |
 | Submissão real gerada | Concluído e validado: 299.844 previsões |
-| Envio ao Kaggle | Não realizado |
-| Aceitação com score | Não observada |
+| Envio ao Kaggle | Informado pelo usuário para submission_01_catboost.csv |
+| Aceitação com score | AUC pública 0,95770, informada pelo usuário |
 | Execução em Colab | Não realizada |
 
 O piloto obteve AUC OOF de 0,95347198 apenas na amostra de 10 mil linhas. A baseline
-completa obteve **AUC OOF de 0,95816557**. Não existe nota pública medida no Kaggle.
+completa obteve **AUC OOF de 0,95816557**. O usuário informou **AUC pública de 0,95770**.
+A auditoria reproduziu a OOF e o CSV e associou esse relato ao SHA-256 da submissão.
+Detalhes, limitações e hipóteses estão em [baseline-audit.md](baseline-audit.md).
 As notas dos notebooks de terceiros estão em [references.md](references.md) e não entram
 na comparação de experimentos próprios.
 
@@ -46,7 +48,13 @@ arquivado na pasta do experimento. SHA-256:
 O arquivo foi reaberto e validado pelo pipeline e pela CLI. Uma conferência independente
 linha a linha confirmou cabeçalho, 299.844 registros, IDs únicos na ordem do sample,
 ausência de índice extra e probabilidades finitas entre 0,00141762 e 0,99796266.
-Há 299.731 probabilidades distintas. O envio e a aceitação com nota continuam pendentes.
+Há 299.731 probabilidades distintas. O usuário informou envio e aceitação com AUC pública
+0,95770. A posição 3020 e a nota do primeiro, 0,96473, referem-se à captura relatada;
+o horário da captura e a nota do décimo não foram fornecidos. Não há nota privada conhecida.
+
+A diferença OOF–pública é 0,00046557; os conjuntos são diferentes, e uma única comparação
+não demonstra a qualidade da validação nem identifica a causa do desvio. A divisão
+pública/privada de aproximadamente 20%/80% foi informada pelo usuário.
 
 O [resumo agregado](../reports/first_submission_summary.json) e
 o [registro de experimentos](../reports/experiments.csv) são públicos. Modelos, OOF,
@@ -86,8 +94,8 @@ rejeição de adulteração do cache, cobertura OOF e leitura da submissão grav
 
 Verificações executadas localmente:
 
-- **32 testes aprovados**, incluindo treinos pequenos dos três backends. Última execução:
-  15,21 segundos. Nenhum aviso nessa execução.
+- **32 testes aprovados** na etapa de geração, incluindo os três backends. A auditoria
+  ampliou para **44 testes aprovados**, com trava de folds e rejeição de OOF corrompida.
 - Ruff: verificação estática aprovada.
 - Smoke pela CLI: concluído com 240 registros de treino, 31 de teste e 3 folds.
   O arquivo gravado foi reaberto e validado. Estado registrado: `diagnostic_only`.

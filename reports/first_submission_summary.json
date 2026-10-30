@@ -67,8 +67,8 @@
   "submission_filename": "submission_01_catboost.csv",
   "submission_sha256": "6f5a70f9854c5db2567885deaf57a087b7254edd85e3766934dfbe5534418863",
   "submission_state": "generated_and_validated",
-  "kaggle_state": "not_sent",
-  "public_score": null,
+  "kaggle_state": "accepted_user_reported",
+  "public_score": 0.9577,
   "validation_checks": {
     "rows": 299844,
     "unique_ids": 299844,
@@ -78,5 +78,7 @@
     "sample_order_matches": true,
     "extra_index": false,
     "all_probabilities_finite": true
-  }
+  },
+  "public_result_reference": "reports/submission_01_public_result.json",
+  "public_result_reported_at_utc": "2026-10-30T19:41:44.915357+00:00"
 }

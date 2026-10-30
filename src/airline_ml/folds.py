@@ -68,14 +68,32 @@ def get_folds(bundle, config):
     }
     key = fingerprint(settings)
     folder = Path(config["output_dir"]) / "folds" / key
-    folder.mkdir(parents=True, exist_ok=True)
     csv_path, metadata_path = folder / "folds.csv", folder / "metadata.json"
+    if config.get("folds_lock"):
+        lock_path = Path(config["folds_lock"])
+        if not lock_path.is_file():
+            raise ValueError(f"Manifesto de folds ausente: {lock_path}")
+        lock = json.loads(lock_path.read_text(encoding="utf-8"))
+        if lock.get("settings") != settings or lock.get("key") != key:
+            raise ValueError("Dados ou configuração divergem dos folds congelados da baseline.")
+        if not csv_path.is_file() or not metadata_path.is_file():
+            raise ValueError(
+                f"Folds congelados ausentes em {folder}; copie os artefatos originais. "
+                "Uma nova divisão não será criada silenciosamente."
+            )
+        if sha256(csv_path) != lock.get("folds_sha256"):
+            raise ValueError("Arquivo de folds congelados alterado em relação à baseline.")
+    folder.mkdir(parents=True, exist_ok=True)
     checked_groups = groups if strategy == "stratified_group" else None
     if csv_path.exists() or metadata_path.exists():
         if not csv_path.exists() or not metadata_path.exists():
             raise ValueError("Cache de folds incompleto; investigue antes de recriar.")
         metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-        if metadata.get("settings") != settings or metadata.get("folds_sha256") != sha256(csv_path):
+        if (
+            metadata.get("settings") != settings
+            or metadata.get("key") != key
+            or metadata.get("folds_sha256") != sha256(csv_path)
+        ):
             raise ValueError("Cache de folds alterado ou incompatível.")
         table = pd.read_csv(csv_path, dtype={ids.name: "string"})
     else:

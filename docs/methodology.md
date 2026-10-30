@@ -43,6 +43,12 @@ hash do treino, estratégia, seed e configuração do alvo. O cache é verificad
 reutilização. Mudar de modelo ou retirar uma feature preserva a divisão; mudar dados,
 seed, alvo ou estratégia pode exigir uma nova divisão e repetir a baseline.
 
+Após auditar a primeira submissão, `configs/folds-lock.json` passou a fixar os folds
+originais nas configurações completas. Alterações de dados/seed/estratégia, CSV
+adulterado ou cache ausente interrompem a execução em vez de criar outra divisão.
+Outro runtime deve receber a pasta original `folds/<chave>/`. Pilotos continuam com
+folds próprios, sem substituir a referência. Nenhum fold da baseline foi alterado.
+
 ## Modelos e pré-processamento
 
 CatBoost recebe categorias como strings, com representações distintas para nulo e valor
@@ -79,6 +85,12 @@ Cada execução registra configuração, hipótese, hashes dos três CSVs, hash 
 commit, estado com edições locais, versões, hardware observado, dispositivo solicitado,
 tempo e número de iterações por fold. Modelos e previsões recebem hashes. Falhas de treino
 geram `failure.json` e não são registradas como experimentos concluídos.
+
+Novas execuções registram também hashes e contagens dos IDs selecionados para treino
+e validação em `preprocessing_fold_<id>.json`. Esses manifestos não existiam na primeira
+execução; sua ausência histórica e os limites da inferência sobre composição do treino
+estão em [baseline-audit.md](baseline-audit.md). Os modelos originais permitiram recuperar
+parâmetros efetivos e reproduzir todas as previsões sem treinar novamente.
 
 O registro CSV agregado é atualizado ao finalizar uma execução. Use um processo de treino
 por registro; não há coordenação de gravações concorrentes.

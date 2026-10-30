@@ -21,6 +21,7 @@ DEFAULTS = {
     "n_splits": 5,
     "validation": "auto",
     "group_column": None,
+    "folds_lock": None,
     "model": "catboost",
     "early_stopping_rounds": 100,
     "params": {},
@@ -62,6 +63,10 @@ def validate_config(config):
         raise ValueError("group_column deve ser nome de coluna ou null.")
     if result["group_column"] in (result["id_column"], result["target_column"]):
         raise ValueError("group_column não pode ser ID ou alvo.")
+    if result["folds_lock"] is not None and (
+        not isinstance(result["folds_lock"], str) or not result["folds_lock"].strip()
+    ):
+        raise ValueError("folds_lock deve ser um caminho de manifesto ou null.")
     mapping = result["target_mapping"]
     if mapping is not None and (not isinstance(mapping, dict) or set(mapping.values()) != {0, 1}):
         raise ValueError("target_mapping deve mapear rótulos textuais para 0 e 1.")

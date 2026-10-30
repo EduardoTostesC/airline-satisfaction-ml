@@ -109,6 +109,8 @@ def train(config, pilot_rows=None):
             "train": fingerprint({"source": original_hash, "row_positions": selected.tolist()}),
         }
         config = {**config, "name": config["name"] + "_pilot"}
+        # O piloto tem sua própria amostra e não substitui os folds oficiais congelados.
+        config["folds_lock"] = None
         config["output_dir"] = str(Path(config["output_dir"]) / "pilots")
         config["registry"] = str(Path(config["reports_dir"]) / "pilot-experiments.csv")
     report = audit_data(bundle, config)
@@ -157,6 +159,16 @@ def train(config, pilot_rows=None):
             write_json(
                 run_dir / f"preprocessing_fold_{fold}.json",
                 {
+                    "training_rows": len(fit_index),
+                    "validation_rows": len(valid_index),
+                    "training_ids_sha256": fingerprint(
+                        train_frame.iloc[fit_index][config["id_column"]].tolist()
+                    ),
+                    "validation_ids_sha256": fingerprint(
+                        train_frame.iloc[valid_index][config["id_column"]].tolist()
+                    ),
+                    "train_sha256": bundle["hashes"]["train"],
+                    "folds_sha256": fold_metadata["folds_sha256"],
                     "categories": {
                         str(index): x_train[f"f{index}"].cat.categories.tolist()
                         for index in categorical_indices

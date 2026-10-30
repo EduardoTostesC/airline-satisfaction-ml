@@ -12,6 +12,7 @@ from airline_ml.models import categorical_strings, prepare_fold
 from airline_ml.pipeline import audit, train
 from airline_ml.smoke import make_synthetic_data
 from airline_ml.submission import validate_submission, write_submission
+from airline_ml.utils import fingerprint
 
 
 @pytest.fixture
@@ -25,6 +26,7 @@ def config(tmp_path):
             "reports_dir": str(tmp_path / "reports"),
             "registry": str(tmp_path / "registry.csv"),
             "dataset_role": "synthetic_test",
+            "folds_lock": None,
             "n_splits": 3,
             "early_stopping_rounds": 5,
         }
@@ -203,6 +205,7 @@ def test_pipeline_end_to_end(config, model):
                 "registry",
                 "dataset_role",
                 "n_splits",
+                "folds_lock",
             )
         },
     }
@@ -218,6 +221,13 @@ def test_pipeline_end_to_end(config, model):
     oof = pd.read_csv(directory / "oof.csv")
     assert len(oof) == 240 and oof.id.is_unique
     assert oof.prediction.notna().all()
+    for fold in range(3):
+        membership = json.loads((directory / f"preprocessing_fold_{fold}.json").read_text())
+        fit_ids = oof.loc[oof.fold != fold, "id"].astype(str).tolist()
+        valid_ids = oof.loc[oof.fold == fold, "id"].astype(str).tolist()
+        assert not set(fit_ids) & set(valid_ids)
+        assert membership["training_ids_sha256"] == fingerprint(fit_ids)
+        assert membership["validation_ids_sha256"] == fingerprint(valid_ids)
     assert json.loads((directory / "metrics.json").read_text())["dataset_role"] == "synthetic_test"
     # Uma falha de invariantes, e não a qualidade de uma base artificial, deve reprovar o teste.
     assert 0 <= result["auc_oof"] <= 1

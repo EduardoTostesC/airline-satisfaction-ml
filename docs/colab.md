@@ -54,6 +54,14 @@ Os controles `RUN_AUDIT`, `RUN_PILOT` e `RUN_FULL_TRAIN` começam desativados. O
 test está ativo e usa dados artificiais. O notebook não transmite credenciais ou envia
 submissões ao Kaggle.
 
+As configurações completas agora exigem os folds congelados da primeira baseline.
+Antes do treino, copie `artifacts/folds/36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962/`
+do computador para o `output_dir/folds/<mesma-chave>/` do runtime, contendo `folds.csv`
+e `metadata.json`. Com os caminhos padrão do notebook, o destino é
+`MyDrive/airline-s6e10/results/artifacts/folds/<chave>/`. O manifesto versionado fixa
+o hash desse CSV, mas não publica os IDs. Cache ausente ou divergente é rejeitado,
+sem recriação silenciosa; smoke e pilotos não usam a trava da base oficial.
+
 Antes de encerrar a sessão, confira `metrics.json`, `environment.json`, `config.json`,
 folds, modelos e submissão no Drive. Se a sessão cair, os folds e artefatos concluídos
 persistidos continuam disponíveis; o pipeline atual não retoma um treino parcialmente

@@ -76,6 +76,39 @@ Decisão: entregar esta baseline como primeira submissão reproduzível. O orça
 árvores foi atingido; aumentá-lo e comparar outros backends são experimentos posteriores,
 com os mesmos folds e orçamento medido. O dataset externo não foi usado.
 
+## 30/10/2026 — resultado público e auditoria da baseline
+
+O usuário informou AUC pública **0,95770** para `submission_01_catboost.csv`, posição
+3020 e score do primeiro 0,96473 na captura relatada. Não informou nota do décimo,
+horário da captura, ID de submissão ou score privado. A divisão aproximada 20%/80%
+também veio do relato. A associação está em `reports/submission_01_public_result.json`.
+
+O hash do CSV foi recalculado e confere com o experimento original. Foram localizados
+os cinco modelos, OOF, folds, configuração, ambiente e log de treino. A inferência
+reproduziu **todas as 699.635 previsões OOF com erro zero** e o CSV de teste byte a byte.
+Não houve novo treino completo nem alteração da primeira submissão.
+
+Confirmados CPU/4 threads, seed 2026, 5 folds, 21 features sem ID/alvo, quatro categorias,
+nulos numéricos nativos, classe positiva True/1 e média dos folds sem refit. Parâmetros
+efetivos foram recuperados dos modelos. Os cinco avaliaram 1000 iterações: o early
+stopping não interrompeu antes do cap. Não foi identificado defeito numérico que
+justificasse corrigir as probabilidades.
+
+OOF 0,95816557 menos pública 0,95770 = 0,00046557, em conjuntos diferentes. Essa única
+comparação não comprova a validação nem identifica causa para o score. A ausência de
+manifestos contemporâneos dos IDs de treino nos artefatos originais é uma limitação,
+não foi preenchida com evidência retrospectiva. O rótulo da validação participa da
+seleção da melhor iteração; esse viés potencial está explicitado na auditoria.
+
+Correções: estados/score atualizados com procedência; trava de folds nos próximos
+experimentos; hashes dos IDs selecionados em novos treinos; testes de OOF e integridade
+da trava. Os dados e os folds originais foram preservados. **44 testes aprovados**.
+
+Prioridades: testar orçamento de 2000 árvores, comparar LightGBM/XGBoost nos mesmos
+folds e só depois poucas features/ensemble medidos por OOF. Top 10 é ambição, não
+previsão. Não foi iniciada busca nem experimento completo novo nesta auditoria.
+Diagnóstico detalhado: [baseline-audit.md](baseline-audit.md).
+
 ## Registro automático
 
 `reports/experiments.csv` guarda agregados de execuções completas. Pilotos e smoke tests usam registros

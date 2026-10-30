@@ -46,6 +46,7 @@ def run_smoke(folder="artifacts/smoke", model="catboost"):
             "reports_dir": str(folder / "reports"),
             "registry": str(folder / "experiments.csv"),
             "dataset_role": "synthetic_test",
+            "folds_lock": None,
             "n_splits": 3,
             "early_stopping_rounds": 8,
         }

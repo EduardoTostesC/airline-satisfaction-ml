@@ -1,0 +1,20 @@
+{
+  "reported_at_utc": "2026-10-30T19:41:44.915357+00:00",
+  "experiment_id": "20261030T184827_catboost_first_submission_06d4f0",
+  "submission_filename": "submission_01_catboost.csv",
+  "submission_sha256": "6f5a70f9854c5db2567885deaf57a087b7254edd85e3766934dfbe5534418863",
+  "public_auc": 0.9577,
+  "position_in_reported_snapshot": 3020,
+  "top1_auc_in_reported_snapshot": 0.96473,
+  "top10_auc_in_snapshot": null,
+  "public_test_fraction_approx": 0.2,
+  "private_test_fraction_approx": 0.8,
+  "snapshot_timestamp": null,
+  "kaggle_submission_id": null,
+  "private_auc": null,
+  "evidence_source": "user_report_in_chat",
+  "independently_verified_on_kaggle": false,
+  "auc_oof": 0.9581655687580003,
+  "oof_minus_public_auc": 0.00046556875800030095,
+  "top1_minus_our_public_auc": 0.007029999999999981
+}

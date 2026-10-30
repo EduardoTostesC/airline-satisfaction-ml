@@ -28,5 +28,6 @@
     "thread_count": 4,
     "border_count": 128,
     "nan_mode": "Min"
-  }
+  },
+  "folds_lock": "configs/folds-lock.json"
 }

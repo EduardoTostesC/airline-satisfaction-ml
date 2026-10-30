@@ -29,5 +29,6 @@
     "n_jobs": 4,
     "device_type": "cpu",
     "verbosity": -1
-  }
+  },
+  "folds_lock": "configs/folds-lock.json"
 }
