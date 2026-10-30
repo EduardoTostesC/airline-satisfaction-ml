@@ -1,0 +1,32 @@
+{
+  "name": "catboost_first_submission",
+  "hypothesis": "Primeira submissão com todas as linhas, 5 folds e orçamento de 1000 árvores por fold em CPU.",
+  "data_dir": "data/raw",
+  "output_dir": "artifacts",
+  "reports_dir": "reports/local",
+  "registry": "reports/experiments.csv",
+  "dataset_role": "competition",
+  "id_column": "id",
+  "target_column": "satisfaction",
+  "target_mapping": null,
+  "categorical_columns": null,
+  "drop_columns": [],
+  "seed": 2026,
+  "n_splits": 5,
+  "validation": "auto",
+  "group_column": null,
+  "model": "catboost",
+  "early_stopping_rounds": 100,
+  "params": {
+    "iterations": 1000,
+    "depth": 6,
+    "learning_rate": 0.05,
+    "l2_leaf_reg": 3.0,
+    "loss_function": "Logloss",
+    "eval_metric": "AUC",
+    "task_type": "CPU",
+    "thread_count": 4,
+    "border_count": 128,
+    "nan_mode": "Min"
+  }
+}

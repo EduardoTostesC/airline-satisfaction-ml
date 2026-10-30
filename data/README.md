@@ -30,7 +30,13 @@ Consulte a [documentação de autenticação](https://github.com/Kaggle/kaggle-c
 - Sample recebido: 299.844 registros, IDs únicos 699635–999478, colunas `id,satisfaction`.
 - SHA-256 do sample: `6165ecc5769962253534c2d840f26aab55dc3cc091d256bb3641bf6608194a71`.
 - Todas as probabilidades do sample: `0.44357272006117476`. Isso não comprova a prevalência do alvo.
-- O tamanho do treino e as features da competição continuam desconhecidos.
+- Os CSVs adicionados depois à raiz foram validados e copiados para `data/raw`:
+  699.635 linhas de treino, 299.844 de teste e 21 features (17 numéricas e 4 categóricas).
+  O alvo é booleano: `True` corresponde à classe positiva (310.339 registros) e
+  `False` à negativa (389.296 registros). A prevalência observada é 44,3573%.
+  Há 292 nulos no atraso de chegada no treino e 130 no teste. Não foram identificadas
+  duplicatas exatas de features nem sobreposição exata de features ou IDs entre conjuntos.
+  O relatório agregado está em `reports/competition_data_audit.json`.
 - Os arquivos `train.csv` e `test.csv` encontrados em Downloads usam `item_id`,
   têm 8.964 e 669 registros e são incompatíveis com a S6E10.
 - Um `data.csv` externo também foi localizado em Downloads. Sua auditoria é separada,

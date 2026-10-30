@@ -37,9 +37,26 @@ Decisão: manter o pipeline preparado e aguardar os CSVs oficiais. Não substitu
 treino sintético pelo dataset externo e não registrar as notas dos notebooks públicos
 como resultados próprios. Nenhum tuning foi iniciado e nenhuma previsão real foi enviada.
 
+## 30/10/2026 — recebimento dos CSVs oficiais e piloto
+
+Os CSVs adicionados à raiz correspondem ao sample: 699.635 linhas de treino,
+299.844 de teste e 21 features. Foram preservados os originais e feitas cópias em
+`data/raw`. A auditoria não encontrou duplicatas exatas ou sobreposição de IDs/features.
+As quatro features categóricas não apresentam categorias novas no teste. Foram
+preservados 292 nulos de atraso de chegada no treino e 130 no teste.
+
+Piloto `20261030T184506_catboost_baseline_pilot_599c72`: 10 mil linhas estratificadas,
+5 folds, CPU/4 threads, máximo de 2000 árvores, early stopping de 100. Concluiu em
+83,33 segundos com AUC OOF 0,95347198. Esse resultado pertence apenas ao piloto e
+seu arquivo de diagnóstico não é a primeira submissão.
+
+Decisão: treinar `configs/catboost-first.json` com todas as linhas, 5 folds e orçamento
+de 1000 árvores por fold, preservando seed e método. Logs passam a mostrar progresso
+a cada 100 iterações. A duração do piloto não foi extrapolada linearmente como previsão
+precisa de duração do treino completo.
+
 ## Registro automático
 
-`reports/experiments.csv` guarda agregados de execuções completas. Começa apenas com
-o cabeçalho, pois ainda não há treino oficial. Pilotos e smoke tests usam registros
+`reports/experiments.csv` guarda agregados de execuções completas. Pilotos e smoke tests usam registros
 separados, ignorados pelo Git. Configuração completa, hashes, métricas por fold,
 ambiente e artefatos ficam na pasta de cada execução local.

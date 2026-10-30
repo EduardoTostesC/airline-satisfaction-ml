@@ -29,8 +29,11 @@ temporal exige implementar e documentar uma divisão apropriada antes do treino 
 
 ## Folds
 
-Configuração inicial: 5 folds, shuffle, seed 2026. A escolha ainda é provisória até a
-auditoria do treino oficial. Sem grupos ou duplicatas, usa `StratifiedKFold`.
+Configuração inicial: 5 folds, shuffle, seed 2026. A auditoria do treino oficial
+não identificou duplicatas exatas, coluna de tempo absoluto ou identificador de grupo
+além do ID da amostra. Para a primeira submissão, foi mantido `StratifiedKFold`.
+As variáveis de horário conveniente e atraso são características da pesquisa, não
+uma cronologia dos registros. Sem grupos ou duplicatas, usa `StratifiedKFold`.
 Com duplicatas exatas ou `group_column`, usa `StratifiedGroupKFold`. Uma coluna de grupo
 configurada é excluída das features. A estratificação por grupos pode ser aproximada;
 cada treino e validação precisa conter as duas classes ou o pipeline rejeita a divisão.
@@ -59,6 +62,11 @@ do vocabulário das categorias.
 As previsões de teste são a média simples das probabilidades dos modelos dos folds.
 O pipeline não faz um refit adicional em todo o treino. Cada modelo, seu esquema e os
 metadados necessários ficam na pasta da execução.
+
+A configuração `configs/catboost-first.json` limita a primeira submissão a 1000 árvores
+por fold, com early stopping de 100 iterações e quatro threads em CPU. A configuração
+de 2000 árvores permanece disponível para um experimento posterior nos mesmos folds.
+O treino usa todas as linhas oficiais, sem incorporar o dataset externo.
 
 ## Métricas e rastreabilidade
 

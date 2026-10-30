@@ -59,6 +59,7 @@ def fit_fold(train, y_train, valid, y_valid, categorical_indices, config, path):
             eval_set=(valid, y_valid),
             early_stopping_rounds=stopping,
             use_best_model=True,
+            verbose=100,
         )
         model.save_model(str(path.with_suffix(".cbm")))
         best = int(model.tree_count_)
