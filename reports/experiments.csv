@@ -1,0 +1,1 @@
+experiment_id,date_utc,dataset_role,model,hypothesis,commit,dirty,code_sha256,train_sha256,fold_key,seed,auc_oof,auc_fold_mean,auc_fold_std,duration_seconds,submission_state,artifacts,public_score

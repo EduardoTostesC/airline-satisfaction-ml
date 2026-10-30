@@ -1,0 +1,113 @@
+{
+  "observed_at_utc": "2026-10-30T04:09:44.643466+00:00",
+  "dataset_role": "external_reference",
+  "sha256": "2ad76465f6115f93d16121891a6b1235acb8007a4ab065cae0dc46b60ad116e3",
+  "rows": 129880,
+  "columns": 22,
+  "target_counts": {
+    "False": 73452,
+    "True": 56428
+  },
+  "missing_by_column": {
+    "Gender": 0,
+    "Customer Type": 0,
+    "Age": 0,
+    "Type of Travel": 0,
+    "Class": 0,
+    "Flight Distance": 0,
+    "Inflight wifi service": 0,
+    "Departure/Arrival time convenient": 0,
+    "Ease of Online booking": 0,
+    "Gate location": 0,
+    "Food and drink": 0,
+    "Online boarding": 0,
+    "Seat comfort": 0,
+    "Inflight entertainment": 0,
+    "On-board service": 0,
+    "Leg room service": 0,
+    "Baggage handling": 0,
+    "Checkin service": 0,
+    "Cleanliness": 0,
+    "Departure Delay in Minutes": 0,
+    "Arrival Delay in Minutes": 393,
+    "satisfaction": 0
+  },
+  "duplicate_rows": 0,
+  "duplicate_feature_rows": 0,
+  "conflicting_label_groups": 0,
+  "numeric_ranges": {
+    "Age": {
+      "min": 7.0,
+      "max": 85.0
+    },
+    "Flight Distance": {
+      "min": 31.0,
+      "max": 4983.0
+    },
+    "Inflight wifi service": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Departure/Arrival time convenient": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Ease of Online booking": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Gate location": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Food and drink": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Online boarding": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Seat comfort": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Inflight entertainment": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "On-board service": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Leg room service": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Baggage handling": {
+      "min": 1.0,
+      "max": 5.0
+    },
+    "Checkin service": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Cleanliness": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "Departure Delay in Minutes": {
+      "min": 0.0,
+      "max": 1592.0
+    },
+    "Arrival Delay in Minutes": {
+      "min": 0.0,
+      "max": 1584.0
+    }
+  },
+  "delay_columns_values_over_five": {
+    "Departure Delay in Minutes": 43007,
+    "Arrival Delay in Minutes": 44502
+  },
+  "conclusion": "Referência externa auditada; não usada como treino oficial da competição."
+}
