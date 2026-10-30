@@ -1,0 +1,82 @@
+{
+  "experiment_id": "20261030T184827_catboost_first_submission_06d4f0",
+  "date_utc": "2026-10-30T18:48:27.991350+00:00",
+  "model": "catboost",
+  "commit": "bc5633fbac4db37d8fc45084ab23d74c1be1ca17",
+  "dirty": false,
+  "code_sha256": "f549ca229d589f8af7c4a7810a6affc70aeec41a1458358fb9b86177b41a737c",
+  "data_hashes": {
+    "train": "2313b65c74e6994f01c2628aae82d2f97aa6f74a81950172ff83864837c98b36",
+    "test": "ff7932747f27c5274de904194ac38b4d088ea4f9bb005ae74f0d619fb893a9b6",
+    "sample_submission": "6165ecc5769962253534c2d840f26aab55dc3cc091d256bb3641bf6608194a71"
+  },
+  "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962",
+  "seed": 2026,
+  "auc_oof": 0.9581655687580003,
+  "auc_fold_mean": 0.9581709037139989,
+  "auc_fold_std": 0.00018087038785895873,
+  "duration_seconds": 1746.9682513000153,
+  "folds": [
+    {
+      "fold": 0,
+      "auc": 0.958222930859032,
+      "best_iterations": 999,
+      "train_rows": 559708,
+      "valid_rows": 139927,
+      "seconds": 323.83094320000964
+    },
+    {
+      "fold": 1,
+      "auc": 0.958065705196122,
+      "best_iterations": 996,
+      "train_rows": 559708,
+      "valid_rows": 139927,
+      "seconds": 329.73838589998195
+    },
+    {
+      "fold": 2,
+      "auc": 0.9584432364351976,
+      "best_iterations": 1000,
+      "train_rows": 559708,
+      "valid_rows": 139927,
+      "seconds": 480.9807365000015
+    },
+    {
+      "fold": 3,
+      "auc": 0.9579006743941757,
+      "best_iterations": 999,
+      "train_rows": 559708,
+      "valid_rows": 139927,
+      "seconds": 285.21251790001406
+    },
+    {
+      "fold": 4,
+      "auc": 0.9582219716854671,
+      "best_iterations": 997,
+      "train_rows": 559708,
+      "valid_rows": 139927,
+      "seconds": 295.8327818000107
+    }
+  ],
+  "train_rows": 699635,
+  "test_rows": 299844,
+  "features": 21,
+  "categorical_features": 4,
+  "positive_class": "True -> 1",
+  "validation": "StratifiedKFold",
+  "submission_filename": "submission_01_catboost.csv",
+  "submission_sha256": "6f5a70f9854c5db2567885deaf57a087b7254edd85e3766934dfbe5534418863",
+  "submission_state": "generated_and_validated",
+  "kaggle_state": "not_sent",
+  "public_score": null,
+  "validation_checks": {
+    "rows": 299844,
+    "unique_ids": 299844,
+    "unique_probabilities": 299731,
+    "min_probability": 0.0014176162434025256,
+    "max_probability": 0.9979626591514658,
+    "sample_order_matches": true,
+    "extra_index": false,
+    "all_probabilities_finite": true
+  }
+}

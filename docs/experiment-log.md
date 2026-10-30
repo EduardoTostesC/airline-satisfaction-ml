@@ -55,6 +55,27 @@ de 1000 árvores por fold, preservando seed e método. Logs passam a mostrar pro
 a cada 100 iterações. A duração do piloto não foi extrapolada linearmente como previsão
 precisa de duração do treino completo.
 
+## 30/10/2026 — primeira baseline completa e arquivo para envio
+
+Experimento `20261030T184827_catboost_first_submission_06d4f0`, código `bc5633f`
+sem alterações locais no início. Treino completo em CPU/4 threads, cinco folds
+estratificados e 1000 árvores máximas por fold. Todas as 699.635 linhas receberam
+uma previsão OOF; as probabilidades do teste resultam da média dos cinco modelos.
+
+Resultado: AUC OOF 0,95816557; média dos folds 0,95817090; desvio padrão populacional
+0,00018087. Tempo total: 1746,97 s. Métricas detalhadas e tempos por fold estão em
+`results.md` e `reports/first_submission_summary.json`.
+
+Foi criada uma cópia local `submission_01_catboost.csv` para o usuário submeter.
+Validações do pipeline, CLI e conferência independente confirmaram 299.844 IDs únicos,
+ordem do sample, cabeçalho exato e probabilidades finitas no intervalo [0,1].
+O SHA-256 confere com o arquivo arquivado. Estado: **gerado e validado**, sem envio
+ao Kaggle ou score observado. Dados, modelos, OOF e submissão permanecem fora do Git.
+
+Decisão: entregar esta baseline como primeira submissão reproduzível. O orçamento de
+árvores foi atingido; aumentá-lo e comparar outros backends são experimentos posteriores,
+com os mesmos folds e orçamento medido. O dataset externo não foi usado.
+
 ## Registro automático
 
 `reports/experiments.csv` guarda agregados de execuções completas. Pilotos e smoke tests usam registros

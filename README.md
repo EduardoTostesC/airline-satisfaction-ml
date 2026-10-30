@@ -8,9 +8,11 @@ Autor: **Adilson Eduardo Tostes Carmo**.
 
 Pipeline implementado e verificado com **32 testes aprovados**, incluindo os três
 backends em dados artificiais. Dados oficiais recebidos: 699.635 linhas de treino,
-299.844 de teste e 21 features. Auditoria e piloto concluídos; o primeiro treinamento
-completo CatBoost está em execução em CPU. O notebook também executou com sucesso
-em kernel local. Ainda não há nota pública do Kaggle para este projeto. Resultados
+299.844 de teste e 21 features. A primeira submissão CatBoost foi gerada e validada:
+**ROC AUC OOF de 0,95816557**, em cinco folds, com treino local em CPU de 29 minutos.
+O arquivo local para envio é `submission_01_catboost.csv`, com 299.844 previsões.
+O notebook também executou com sucesso em kernel local. Ainda não há envio ou nota
+pública do Kaggle para este projeto. Resultados
 de notebooks de terceiros não são resultados reproduzidos aqui.
 
 ## Ambiente e instalação
