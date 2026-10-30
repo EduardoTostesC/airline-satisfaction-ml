@@ -7,11 +7,11 @@ Autor: **Adilson Eduardo Tostes Carmo**.
 ## Status
 
 Pipeline implementado e verificado com **32 testes aprovados**, incluindo os três
-backends em dados artificiais. Os dados oficiais de treino e teste ainda não foram
-localizados. O notebook também executou com sucesso em kernel local. O sample recebido
-contém 299.844 registros. Nenhuma nota de competição
-foi medida por este projeto. Resultados de notebooks de terceiros não são resultados
-reproduzidos aqui.
+backends em dados artificiais. Dados oficiais recebidos: 699.635 linhas de treino,
+299.844 de teste e 21 features. Auditoria e piloto concluídos; o primeiro treinamento
+completo CatBoost está em execução em CPU. O notebook também executou com sucesso
+em kernel local. Ainda não há nota pública do Kaggle para este projeto. Resultados
+de notebooks de terceiros não são resultados reproduzidos aqui.
 
 ## Ambiente e instalação
 
@@ -35,11 +35,13 @@ Coloque os três CSVs oficiais em `data/raw/`, conforme [data/README.md](data/RE
 .venv/Scripts/airline-ml.exe smoke
 .venv/Scripts/airline-ml.exe audit --config configs/catboost.json
 .venv/Scripts/airline-ml.exe train --config configs/catboost.json --pilot-rows 10000
-.venv/Scripts/airline-ml.exe train --config configs/catboost.json
+.venv/Scripts/airline-ml.exe train --config configs/catboost-first.json
 ```
 
 O piloto usa amostragem estratificada do treino e escreve em uma área separada.
 Ele serve para verificar funcionamento e medir custo, não para comparação com CV completa.
+O primeiro treino completo limita cada um dos cinco folds a 1000 árvores; a configuração
+`catboost.json` mantém um orçamento de 2000 para comparação posterior.
 Cada treino completo salva modelos por fold, OOF, metadados e `submission.csv` em
 `artifacts/runs/<identificador>/`. A submissão usa a média dos modelos dos folds.
 

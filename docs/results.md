@@ -5,18 +5,32 @@
 | Etapa | Estado |
 |---|---|
 | Sample inspecionado | Concluído, 299.844 registros |
-| Treino e teste oficiais localizados | Pendente |
-| Auditoria da base oficial | Pendente |
-| Piloto com dados oficiais | Pendente |
-| Baseline e OOF oficiais | Pendente |
+| Treino e teste oficiais localizados | Concluído: 699.635 / 299.844 registros |
+| Auditoria da base oficial | Concluída, sem duplicatas exatas ou IDs sobrepostos |
+| Piloto com dados oficiais | Concluído: 10 mil linhas, 83,33 s |
+| Baseline e OOF oficiais | Treino completo em execução, 5 folds |
 | Submissão real gerada | Pendente |
 | Envio ao Kaggle | Não realizado |
 | Aceitação com score | Não observada |
 | Execução em Colab | Não realizada |
 
-Não existe AUC de competição medida por este projeto. As notas públicas fornecidas
-para os notebooks de terceiros estão em [references.md](references.md) e não entram
+O piloto obteve AUC OOF de 0,95347198 apenas na amostra de 10 mil linhas; o resultado
+da validação completa ainda está em processamento. Não existe nota pública medida no Kaggle.
+As notas dos notebooks de terceiros estão em [references.md](references.md) e não entram
 na comparação de experimentos próprios.
+
+## Auditoria dos dados oficiais
+
+O treino possui 310.339 registros positivos (`True`) e 389.296 negativos (`False`).
+Há 292 nulos no atraso de chegada no treino e 130 no teste. Zeros, categorias e
+outliers foram preservados. Todas as categorias do teste aparecem no treino.
+
+![Auditoria dos dados oficiais](../reports/figures/competition-audit.png)
+
+Relatório agregado: [competition_data_audit.json](../reports/competition_data_audit.json).
+Em dez faixas consecutivas de ID, a prevalência varia de 44,18% a 44,61%.
+O ID permanece excluído das features; essa verificação não substitui a investigação
+de grupos ou tempo quando houver variáveis que os representem.
 
 ## Referência externa auditada
 

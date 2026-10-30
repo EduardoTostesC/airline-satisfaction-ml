@@ -1,0 +1,78 @@
+{
+  "dataset_role": "competition",
+  "train_rows": 699635,
+  "id_sequence_consecutive": true,
+  "target_by_id_bin": [
+    {
+      "id_min": 0,
+      "id_max": 69963,
+      "rows": 69964,
+      "positive": 30909,
+      "positive_rate": 0.4417843462352067
+    },
+    {
+      "id_min": 69964,
+      "id_max": 139926,
+      "rows": 69963,
+      "positive": 31043,
+      "positive_rate": 0.44370595886397096
+    },
+    {
+      "id_min": 139927,
+      "id_max": 209890,
+      "rows": 69964,
+      "positive": 30975,
+      "positive_rate": 0.4427276885255274
+    },
+    {
+      "id_min": 209891,
+      "id_max": 279853,
+      "rows": 69963,
+      "positive": 31053,
+      "positive_rate": 0.44384889155696583
+    },
+    {
+      "id_min": 279854,
+      "id_max": 349817,
+      "rows": 69964,
+      "positive": 31209,
+      "positive_rate": 0.4460722657366646
+    },
+    {
+      "id_min": 349818,
+      "id_max": 419780,
+      "rows": 69963,
+      "positive": 31182,
+      "positive_rate": 0.44569272329659965
+    },
+    {
+      "id_min": 419781,
+      "id_max": 489744,
+      "rows": 69964,
+      "positive": 31039,
+      "positive_rate": 0.4436424446858384
+    },
+    {
+      "id_min": 489745,
+      "id_max": 559707,
+      "rows": 69963,
+      "positive": 30987,
+      "positive_rate": 0.4429055357831997
+    },
+    {
+      "id_min": 559708,
+      "id_max": 629671,
+      "rows": 69964,
+      "positive": 30947,
+      "positive_rate": 0.44232748270539135
+    },
+    {
+      "id_min": 629672,
+      "id_max": 699634,
+      "rows": 69963,
+      "positive": 30995,
+      "positive_rate": 0.44301988193759556
+    }
+  ],
+  "decision": "ID excluído das features; nenhuma data absoluta ou identificador de passageiro disponível."
+}
