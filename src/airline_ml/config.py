@@ -22,6 +22,8 @@ DEFAULTS = {
     "validation": "auto",
     "group_column": None,
     "folds_lock": None,
+    "feature_groups": [],
+    "service_representation": "ordinal",
     "model": "catboost",
     "early_stopping_rounds": 100,
     "params": {},
@@ -53,7 +55,9 @@ def validate_config(config):
         raise ValueError("Modelo não suportado.")
     if result["dataset_role"] not in {"competition", "synthetic_test", "external_reference"}:
         raise ValueError("dataset_role inválido.")
-    for key in ("drop_columns", "categorical_columns"):
+    if result["service_representation"] not in {"ordinal", "categorical"}:
+        raise ValueError("service_representation deve ser ordinal ou categorical.")
+    for key in ("drop_columns", "categorical_columns", "feature_groups"):
         value = result[key]
         if key == "categorical_columns" and value is None:
             continue

@@ -20,6 +20,7 @@ def main():
         command.add_argument("--data-dir")
         if name == "train":
             command.add_argument("--pilot-rows", type=int)
+            command.add_argument("--folds", type=int, nargs="+")
     smoke = commands.add_parser("smoke")
     smoke.add_argument("--output-dir", default="artifacts/smoke")
     smoke.add_argument("--model", choices=["catboost", "lightgbm", "xgboost"], default="catboost")
@@ -42,7 +43,11 @@ def main():
             config = load_config(args.config)
             if args.data_dir:
                 config["data_dir"] = args.data_dir
-            result = audit(config) if args.command == "audit" else train(config, args.pilot_rows)
+            result = (
+                audit(config)
+                if args.command == "audit"
+                else train(config, args.pilot_rows, args.folds)
+            )
         print(json.dumps(result, indent=2, ensure_ascii=False, allow_nan=False))
     except (ValueError, FileNotFoundError) as exc:
         print(f"Erro: {exc}", file=sys.stderr)

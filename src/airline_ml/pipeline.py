@@ -14,8 +14,10 @@ from sklearn.model_selection import train_test_split
 
 from .config import validate_config
 from .data import audit_data, load_data
+from .features import apply_features
 from .folds import get_folds
 from .models import fit_fold, prepare_fold
+from .resources import profile_run
 from .submission import validate_probabilities, write_submission
 from .utils import fingerprint, provenance, sha256, utc_now, write_json
 
@@ -84,7 +86,8 @@ def register_run(config, summary):
         writer.writerow(row)
 
 
-def train(config, pilot_rows=None):
+@profile_run
+def train(config, pilot_rows=None, folds_to_run=None):
     config = validate_config(config)
     started = time.perf_counter()
     bundle = load_data(config)
@@ -115,6 +118,16 @@ def train(config, pilot_rows=None):
         config["registry"] = str(Path(config["reports_dir"]) / "pilot-experiments.csv")
     report = audit_data(bundle, config)
     folds, fold_metadata = get_folds(bundle, config)
+    requested_folds = list(range(config["n_splits"])) if folds_to_run is None else folds_to_run
+    if (
+        not requested_folds
+        or len(set(requested_folds)) != len(requested_folds)
+        or any(type(f) is not int or not 0 <= f < config["n_splits"] for f in requested_folds)
+    ):
+        raise ValueError("folds_to_run deve selecionar folds únicos e válidos da divisão original.")
+    requested_folds = sorted(requested_folds)
+    screening = len(requested_folds) != config["n_splits"]
+    bundle = apply_features(bundle, config)
     now = utc_now()
     experiment_id = (
         f"{now[:19].replace(':', '').replace('-', '')}_{config['name']}_{uuid.uuid4().hex[:6]}"
@@ -146,7 +159,7 @@ def train(config, pilot_rows=None):
     test_sum = np.zeros(len(test_frame), dtype=float)
     fold_results, importances = [], []
     try:
-        for fold in range(config["n_splits"]):
+        for fold in requested_folds:
             fold_start = time.perf_counter()
             fit_index, valid_index = np.where(folds != fold)[0], np.where(folds == fold)[0]
             x_train, x_valid, x_test = prepare_fold(
@@ -189,6 +202,20 @@ def train(config, pilot_rows=None):
                 config,
                 run_dir / f"model_fold_{fold}",
             )
+            if config["model"] == "catboost":
+                effective = model.get_all_params()
+                history = model.get_evals_result()
+            elif config["model"] == "lightgbm":
+                effective = model.booster_.params
+                history = model.evals_result_
+            else:
+                effective = json.loads(model.get_booster().save_config())
+                history = model.evals_result()
+            write_json(run_dir / f"effective_parameters_fold_{fold}.json", effective)
+            write_json(run_dir / f"learning_history_fold_{fold}.json", history)
+            iterations_evaluated = max(
+                len(values) for dataset in history.values() for values in dataset.values()
+            )
             valid_pred = validate_probabilities(
                 model.predict_proba(x_valid)[:, 1], len(valid_index)
             )
@@ -200,6 +227,7 @@ def train(config, pilot_rows=None):
                 "fold": fold,
                 "auc": float(roc_auc_score(y[valid_index], valid_pred)),
                 "best_iterations": best,
+                "iterations_evaluated": iterations_evaluated,
                 "train_rows": len(fit_index),
                 "valid_rows": len(valid_index),
                 "seconds": time.perf_counter() - fold_start,
@@ -210,19 +238,20 @@ def train(config, pilot_rows=None):
             print(json.dumps(result), flush=True)
             del model, x_train, x_valid, x_test
             gc.collect()
-        if not np.all(oof_count == 1):
+        covered = np.isin(folds, requested_folds)
+        if not np.all(oof_count[covered] == 1) or np.any(oof_count[~covered] != 0):
             raise ValueError("Cobertura OOF deve ser exatamente uma previsão por registro.")
-        validate_probabilities(oof, len(y))
+        validate_probabilities(oof[covered], int(covered.sum()))
         ident, target = config["id_column"], config["target_column"]
-        oof_path = run_dir / "oof.csv"
+        oof_path = run_dir / ("oof_screening.csv" if screening else "oof.csv")
         pd.DataFrame(
             {ident: train_frame[ident], "target": y, "fold": folds, "prediction": oof}
-        ).to_csv(oof_path, index=False, float_format="%.17g")
-        test_predictions = test_sum / config["n_splits"]
+        ).loc[covered].to_csv(oof_path, index=False, float_format="%.17g")
+        test_predictions = test_sum / len(requested_folds)
         # Pilotos e testes artificiais não recebem nome de submissão final.
         submission_name = (
             "submission.csv"
-            if pilot_rows is None and config["dataset_role"] == "competition"
+            if not screening and pilot_rows is None and config["dataset_role"] == "competition"
             else "diagnostic_predictions.csv"
         )
         submission = write_submission(
@@ -251,7 +280,11 @@ def train(config, pilot_rows=None):
             "data_hashes": bundle["hashes"],
             "fold_key": fold_metadata["key"],
             "seed": config["seed"],
-            "auc_oof": float(roc_auc_score(y, oof)),
+            "auc_oof": None if screening else float(roc_auc_score(y, oof)),
+            "validation_auc": float(roc_auc_score(y[covered], oof[covered])),
+            "evaluation_scope": "screening" if screening else "full_cv",
+            "folds_completed": requested_folds,
+            "oof_rows": int(covered.sum()),
             "auc_fold_mean": float(np.mean(aucs)),
             "auc_fold_std": float(np.std(aucs)),
             "duration_seconds": time.perf_counter() - started,
@@ -264,6 +297,7 @@ def train(config, pilot_rows=None):
             "submission_path": str(submission),
             "submission_sha256": sha256(submission),
             "oof_sha256": sha256(oof_path),
+            "oof_path": str(oof_path),
             "model_hashes": {
                 path.name: sha256(path) for path in sorted(run_dir.glob("model_fold_*"))
             },

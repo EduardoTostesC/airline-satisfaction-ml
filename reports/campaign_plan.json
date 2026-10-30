@@ -1,0 +1,162 @@
+{
+  "campaign_started_utc": "2026-10-30T19:59:07.316587+00:00",
+  "execution_budget_seconds": 14400,
+  "original_submission_sha256": "6f5a70f9854c5db2567885deaf57a087b7254edd85e3766934dfbe5534418863",
+  "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962",
+  "folds_sha256": "f8f4c46125130a2ab9166c6d47bcee84061d2df67064f34cdddcef1dfd996702",
+  "baseline": {
+    "experiment_id": "20261030T184827_catboost_first_submission_06d4f0",
+    "auc_oof": 0.9581655687580003,
+    "public_score": 0.9577,
+    "duration_seconds": 1746.9682513000153,
+    "folds": [
+      {
+        "fold": 0,
+        "auc": 0.958222930859032,
+        "best_iterations": 999,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 323.83094320000964
+      },
+      {
+        "fold": 1,
+        "auc": 0.958065705196122,
+        "best_iterations": 996,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 329.73838589998195
+      },
+      {
+        "fold": 2,
+        "auc": 0.9584432364351976,
+        "best_iterations": 1000,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 480.9807365000015
+      },
+      {
+        "fold": 3,
+        "auc": 0.9579006743941757,
+        "best_iterations": 999,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 285.21251790001406
+      },
+      {
+        "fold": 4,
+        "auc": 0.9582219716854671,
+        "best_iterations": 997,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 295.8327818000107
+      }
+    ],
+    "peak_memory_bytes": null,
+    "memory_note": "Historical peak was not measured; no estimate presented as observation."
+  },
+  "stages": [
+    {
+      "stage": "A_cost",
+      "candidates": 3,
+      "folds": [
+        0
+      ],
+      "iterations": 200,
+      "purpose": "Measure per-model time and peak memory before allocating full CV."
+    },
+    {
+      "stage": "A_full",
+      "candidates": "3 model families including existing baseline",
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "purpose": "Compare all folds with appropriate categorical handling."
+    },
+    {
+      "stage": "B_screen",
+      "max_new_trials": 4,
+      "folds": [
+        0
+      ],
+      "purpose": "Small depth/L2/rate-tree checks, one hypothesis per trial."
+    },
+    {
+      "stage": "C_D_screen",
+      "max_new_trials": 8,
+      "folds": [
+        0
+      ],
+      "purpose": "Ordinal vs categorical service ratings; small separate feature groups."
+    },
+    {
+      "stage": "confirm",
+      "max_additional_full_trials": 3,
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "purpose": "Confirm screening winners before promotion."
+    }
+  ],
+  "promotion_rule": {
+    "required_folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "positive_global_oof_delta": true,
+    "minimum_winning_folds": 4,
+    "worst_fold_delta_floor": -0.0002,
+    "note": "Practical predeclared consistency guard, not a statistical significance test."
+  },
+  "neural_condition": "No NVIDIA GPU detected; neural model not budgeted unless hardware changes and GBDTs stabilize.",
+  "cost_profiles_and_estimates": {
+    "lightgbm": {
+      "cost_run": "20261030T195939_cost_lightgbm_200_eac3c4",
+      "measured_seconds_200_fold0": 32.610168499988504,
+      "pipeline_seconds_200_fold0": 65.10936339999898,
+      "planned_iterations": 2000,
+      "rough_full_cv_projection_seconds": 1663.0076198994357,
+      "peak_rss_measured_bytes": 625061888,
+      "peak_private_measured_bytes": 1531518976,
+      "estimate_limit": "Linear planning projection; includes non-scaling overhead and ignores early stopping. Not a runtime guarantee."
+    },
+    "xgboost": {
+      "cost_run": "20261030T200233_cost_xgboost_200_06c5c9",
+      "measured_seconds_200_fold0": 60.51214340000297,
+      "pipeline_seconds_200_fold0": 98.28836919998867,
+      "planned_iterations": 1500,
+      "rough_full_cv_projection_seconds": 2306.981603300097,
+      "peak_rss_measured_bytes": 577503232,
+      "peak_private_measured_bytes": 1568546816,
+      "estimate_limit": "Linear planning projection; includes non-scaling overhead and ignores early stopping. Not a runtime guarantee."
+    },
+    "catboost": {
+      "cost_run": "20261030T200512_cost_catboost_200_8b3473",
+      "measured_seconds_200_fold0": 63.461844599980395,
+      "pipeline_seconds_200_fold0": 85.13402170001063,
+      "planned_iterations": 2000,
+      "rough_full_cv_projection_seconds": 3194.76440709905,
+      "peak_rss_measured_bytes": 667975680,
+      "peak_private_measured_bytes": 1927778304,
+      "estimate_limit": "Linear planning projection; includes non-scaling overhead and ignores early stopping. Not a runtime guarantee."
+    }
+  },
+  "execution_order": [
+    "camp_lightgbm_2000",
+    "camp_catboost_2000",
+    "camp_xgboost_1500",
+    "bounded_screens",
+    "best_remaining_confirmations"
+  ],
+  "memory_policy": "Sequential workers; no parallel model training. Monitor sampled RSS/private bytes throughout."
+}

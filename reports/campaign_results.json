@@ -1,0 +1,193 @@
+{
+  "updated_at_utc": "2026-10-30T20:07:21.239655+00:00",
+  "baseline": {
+    "experiment_id": "20261030T184827_catboost_first_submission_06d4f0",
+    "auc_oof": 0.9581655687580003,
+    "public_score": 0.9577,
+    "duration_seconds": 1746.9682513000153,
+    "folds": [
+      {
+        "fold": 0,
+        "auc": 0.958222930859032,
+        "best_iterations": 999,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 323.83094320000964
+      },
+      {
+        "fold": 1,
+        "auc": 0.958065705196122,
+        "best_iterations": 996,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 329.73838589998195
+      },
+      {
+        "fold": 2,
+        "auc": 0.9584432364351976,
+        "best_iterations": 1000,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 480.9807365000015
+      },
+      {
+        "fold": 3,
+        "auc": 0.9579006743941757,
+        "best_iterations": 999,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 285.21251790001406
+      },
+      {
+        "fold": 4,
+        "auc": 0.9582219716854671,
+        "best_iterations": 997,
+        "train_rows": 559708,
+        "valid_rows": 139927,
+        "seconds": 295.8327818000107
+      }
+    ],
+    "peak_memory_bytes": null,
+    "memory_note": "Historical peak was not measured; no estimate presented as observation."
+  },
+  "results": [
+    {
+      "name": "cost_lightgbm_200",
+      "experiment_id": "20261030T195939_cost_lightgbm_200_eac3c4",
+      "model": "lightgbm",
+      "scope": "screening",
+      "folds_completed": [
+        0
+      ],
+      "auc_oof": null,
+      "validation_auc": 0.957675470858615,
+      "duration_seconds": 65.10936339999898,
+      "resources": {
+        "peak_rss_bytes": 625061888,
+        "peak_private_bytes": 1531518976,
+        "min_system_available_bytes": 194068480,
+        "sample_interval_seconds": 0.5,
+        "wall_seconds_including_profiling": 65.83944030001294
+      },
+      "fold_aucs": [
+        0.957675470858615
+      ],
+      "fold_deltas_vs_baseline": [
+        -0.0005474600004169439
+      ],
+      "global_oof_delta_vs_baseline": null,
+      "consistent_improvement_vs_baseline": false,
+      "hypothesis": "Cost profile: original fold 0, 200 iterations; no promotion.",
+      "params": {
+        "objective": "binary",
+        "metric": "auc",
+        "n_estimators": 200,
+        "learning_rate": 0.04,
+        "num_leaves": 31,
+        "colsample_bytree": 1.0,
+        "subsample": 1.0,
+        "reg_lambda": 3.0,
+        "n_jobs": 4,
+        "device_type": "cpu",
+        "verbosity": -1
+      },
+      "feature_groups": [],
+      "service_representation": "ordinal",
+      "artifacts": "artifacts\\runs\\20261030T195939_cost_lightgbm_200_eac3c4",
+      "submission_state": "diagnostic_only",
+      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
+    },
+    {
+      "name": "cost_xgboost_200",
+      "experiment_id": "20261030T200233_cost_xgboost_200_06c5c9",
+      "model": "xgboost",
+      "scope": "screening",
+      "folds_completed": [
+        0
+      ],
+      "auc_oof": null,
+      "validation_auc": 0.9570404992606137,
+      "duration_seconds": 98.28836919998867,
+      "resources": {
+        "peak_rss_bytes": 577503232,
+        "peak_private_bytes": 1568546816,
+        "min_system_available_bytes": 2850816,
+        "sample_interval_seconds": 0.5,
+        "wall_seconds_including_profiling": 99.28042539997841
+      },
+      "fold_aucs": [
+        0.9570404992606137
+      ],
+      "fold_deltas_vs_baseline": [
+        -0.0011824315984182432
+      ],
+      "global_oof_delta_vs_baseline": null,
+      "consistent_improvement_vs_baseline": false,
+      "hypothesis": "Cost profile: original fold 0, 200 iterations; no promotion.",
+      "params": {
+        "n_estimators": 200,
+        "learning_rate": 0.04,
+        "max_depth": 6,
+        "min_child_weight": 5,
+        "reg_lambda": 3.0,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0,
+        "tree_method": "hist",
+        "device": "cpu",
+        "n_jobs": 4,
+        "objective": "binary:logistic",
+        "eval_metric": "auc"
+      },
+      "feature_groups": [],
+      "service_representation": "ordinal",
+      "artifacts": "artifacts\\runs\\20261030T200233_cost_xgboost_200_06c5c9",
+      "submission_state": "diagnostic_only",
+      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
+    },
+    {
+      "name": "cost_catboost_200",
+      "experiment_id": "20261030T200512_cost_catboost_200_8b3473",
+      "model": "catboost",
+      "scope": "screening",
+      "folds_completed": [
+        0
+      ],
+      "auc_oof": null,
+      "validation_auc": 0.9564554473050221,
+      "duration_seconds": 85.13402170001063,
+      "resources": {
+        "peak_rss_bytes": 667975680,
+        "peak_private_bytes": 1927778304,
+        "min_system_available_bytes": 67182592,
+        "sample_interval_seconds": 0.5,
+        "wall_seconds_including_profiling": 85.23479529999895
+      },
+      "fold_aucs": [
+        0.9564554473050221
+      ],
+      "fold_deltas_vs_baseline": [
+        -0.0017674835540099076
+      ],
+      "global_oof_delta_vs_baseline": null,
+      "consistent_improvement_vs_baseline": false,
+      "hypothesis": "Cost profile: original fold 0, 200 iterations; no promotion.",
+      "params": {
+        "iterations": 200,
+        "depth": 6,
+        "learning_rate": 0.05,
+        "l2_leaf_reg": 3.0,
+        "loss_function": "Logloss",
+        "eval_metric": "AUC",
+        "task_type": "CPU",
+        "thread_count": 4,
+        "border_count": 128,
+        "nan_mode": "Min"
+      },
+      "feature_groups": [],
+      "service_representation": "ordinal",
+      "artifacts": "artifacts\\runs\\20261030T200512_cost_catboost_200_8b3473",
+      "submission_state": "diagnostic_only",
+      "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962"
+    }
+  ]
+}

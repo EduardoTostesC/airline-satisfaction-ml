@@ -1,0 +1,7 @@
+{
+  "validation_rows": 139927,
+  "baseline_model_fold": 0,
+  "max_absolute_error_after_string_cache_optimization": 0.0,
+  "fold_key": "36877817064bfa9e79bd6cbbc7e30f9b79d508a9cba592fb73a7ae237ad8b962",
+  "transformation": "Canonical values unchanged; strings reused for repeated category values."
+}

@@ -16,7 +16,9 @@ def categorical_strings(series):
             return "V:" + str(int(value))
         return "V:" + str(value)
 
-    return series.map(canonical)
+    # A codificação é a mesma; o cache reutiliza strings em vez de criar uma por linha.
+    mapping = {value: canonical(value) for value in series.dropna().unique()}
+    return series.astype(object).map(mapping).fillna("M:")
 
 
 def prepare_fold(train, valid, test, categorical, model_name):
@@ -80,7 +82,7 @@ def fit_fold(train, y_train, valid, y_valid, categorical_indices, config, path):
             eval_metric="auc",
             callbacks=[
                 early_stopping(stopping, first_metric_only=True, verbose=False),
-                log_evaluation(0),
+                log_evaluation(100),
             ],
         )
         model.booster_.save_model(str(path.with_suffix(".txt")))
@@ -98,7 +100,7 @@ def fit_fold(train, y_train, valid, y_valid, categorical_indices, config, path):
         model = XGBClassifier(
             **params, random_state=seed, enable_categorical=True, early_stopping_rounds=stopping
         )
-        model.fit(train, y_train, eval_set=[(valid, y_valid)], verbose=False)
+        model.fit(train, y_train, eval_set=[(valid, y_valid)], verbose=100)
         model.save_model(str(path.with_suffix(".ubj")))
         best = int(model.best_iteration + 1)
     if list(model.classes_) != [0, 1]:
